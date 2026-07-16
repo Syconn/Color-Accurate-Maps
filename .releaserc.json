@@ -1,0 +1,71 @@
+{
+    "branches": [
+        "main",
+        {
+            "name": "beta",
+            "prerelease": true
+        }
+    ],
+    "tagFormat": "v${version}",
+    "plugins": [
+        [
+            "@semantic-release/commit-analyzer",
+            {
+                "config": "@meza/mezas-conventional-changelog"
+            }
+        ],
+        [
+            "@semantic-release/release-notes-generator",
+            {
+                "config": "@meza/mezas-conventional-changelog"
+            }
+        ],
+        "semantic-release-export-data",
+        [
+            "@semantic-release/changelog",
+            {
+                "changelogTitle": "# Changelog",
+                "changelogFile": "CHANGELOG.md"
+            }
+        ],
+        [
+            "@semantic-release/github",
+            {
+                "assets": [
+                    {
+                        "path": "build/libs/*.jar"
+                    }
+                ]
+            }
+        ],
+        [
+            "@semantic-release/exec",
+            {
+                "prepareCmd": "./scripts/release.sh \"${nextRelease.version}\""
+            }
+        ],
+        ["semantic-release-discord-notifier", {
+            "embedJson": {
+                "username": "Herocore",
+                "avatar_url": "https://media.forgecdn.net/avatars/thumbnails/1158/524/64/64/638726894323823473.png",
+                "content": "# :rocket: ${nextRelease.version} just dropped",
+                "embeds": [
+                    {
+                        "title": "What changed?",
+                        "description": "${nextRelease.notes}",
+                        "color": 7377919,
+                        "fields": [
+                            {
+                                "name": "Downloads",
+                                "value": "[⬇️ Download from Modrinth](https://modrinth.com/mod/soundsbegone)\n[⬇️ Download from CurseForge](https://www.curseforge.com/minecraft/mc-mods/sounds-be-gone/)"
+                            }
+                        ],
+                        "footer": {
+                            "text": "Curseforge might take a few hours to approve the file so if you want to download it immediately, use the Modrinth link."
+                        }
+                    }
+                ]
+            }
+        }]
+    ]
+}

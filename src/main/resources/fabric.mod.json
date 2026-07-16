@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+      "Syconn"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/syconns-super-hero-mod",
+    "sources": "https://github.com/Syconn/HeroCore-v2"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/accuratemaps/icon.png",
+  "environment": "*",
+  "entrypoints": {
+  },
+  "mixins": [
+      "accuratemaps.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric-api": ">=${fabricVersion}",
+    "minecraft": ">=${minecraftVersion}"
+  }
+}
