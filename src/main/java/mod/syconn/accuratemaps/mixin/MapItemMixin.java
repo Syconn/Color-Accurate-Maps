@@ -31,11 +31,6 @@ public class MapItemMixin {
         }
     }
 
-//    @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/saveddata/maps/MapItemSavedData;updateColor(IIB)Z", shift = At.Shift.AFTER))
-//    private void updateAdditionalMap(Level level, Entity entity, MapItemSavedData mapItemSavedData, CallbackInfo ci, @Local int o, @Local int p, @Local(name = "mapColor") MapColor mapColor) {
-//
-//    }
-
     // TODO IF INCORRECT PULL WITH PRINT LOCALS
     @WrapOperation(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/saveddata/maps/MapItemSavedData;updateColor(IIB)Z"))
     private boolean onUpdateColor(MapItemSavedData data, int i, int j, byte b, Operation<Boolean> original, @Local(name = "mapColor") MapColor mapColor) {

@@ -9,10 +9,11 @@ import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +22,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import org.lwjgl.opengl.GL11;
 
@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ClientAccurateMaps implements ClientModInitializer { // TODO MAYBE SUPPORT AT REGISTRATION?
+public class ClientAccurateMaps implements ClientModInitializer {
 
     private static final Map<Integer, AdditionalMapData> mapData = new LinkedHashMap<>();
     private static final Map<BlockState, Integer> stateColorMap = new LinkedHashMap<>();
@@ -84,14 +84,16 @@ public class ClientAccurateMaps implements ClientModInitializer { // TODO MAYBE 
         if (texture.getPixels() != null) {
             for(int i = 0; i < 128; ++i) {
                 for(int j = 0; j < 128; ++j) {
-                    int k = j + i * 128;
+                    int k = i + j * 128;
 
                     var unShifted = data.colors[k] & 255;
                     var originalColor = MapColorInvoker.invokeByIdUnsafe(unShifted >> 2);
                     var brightness = BrightnessInvoker.invokeByIdUnsafe(unShifted & 3);
                     var blockState = Block.stateById(additionalData.getStates()[k]);
+                    var blockPos = BlockPos.of(additionalData.getPositions()[k]);
                     if(!blockState.isAir()) {
-                        var tintColor = 0xFFFFFF;
+                        var provider = ColorProviderRegistry.BLOCK.get(blockState.getBlock());
+                        int tintColor = provider != null ? provider.getColor(blockState, Minecraft.getInstance().level, blockPos, 0) : 0xFFFFFF;
                         var savedColor = stateColorMap.getOrDefault(blockState, 0);
                         var multipliedColor = getMultipliedColor(tintColor, savedColor);
                         texture.getPixels().setPixelRGBA(i, j, AdditionalMapColor.getRenderColor(multipliedColor, brightness));
