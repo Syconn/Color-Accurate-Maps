@@ -17,4 +17,12 @@ public class AdditionalMapColor extends MapColor {
     public int getBlockState() {
         return blockState;
     }
+
+    public static int getRenderColor(int color, Brightness brightness) {
+        int i = brightness.modifier;
+        int j = (color >> 16 & 255) * i / 255;
+        int k = (color >> 8 & 255) * i / 255;
+        int l = (color & 255) * i / 255;
+        return -16777216 | l << 16 | k << 8 | j;
+    }
 }

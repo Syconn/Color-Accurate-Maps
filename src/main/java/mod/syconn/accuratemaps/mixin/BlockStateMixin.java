@@ -14,11 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public class BlockStateMixin {
 
-    @Inject(method = "getMapColor", at = @At("HEAD"))
+    @Inject(method = "getMapColor", at = @At("RETURN"), cancellable = true)
     public void overrideMapColor(BlockGetter blockGetter, BlockPos blockPos, CallbackInfoReturnable<MapColor> cir) {
         MapColor originalColor = cir.getReturnValue();
-        if(blockGetter instanceof BlockAndTintGetter worldView) {
-            cir.setReturnValue(new AdditionalMapColor(originalColor, blockGetter.getBlockState(blockPos)));
-        }
+        if(blockGetter instanceof BlockAndTintGetter worldView) cir.setReturnValue(new AdditionalMapColor(originalColor, blockGetter.getBlockState(blockPos)));
     }
 }

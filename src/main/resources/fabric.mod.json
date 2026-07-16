@@ -15,6 +15,12 @@
   "icon": "assets/accuratemaps/icon.png",
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "mod.syconn.accuratemaps.AccurateMaps"
+    ],
+    "client": [
+      "mod.syconn.accuratemaps.client.ClientAccurateMaps"
+    ]
   },
   "mixins": [
       "accuratemaps.mixins.json"
