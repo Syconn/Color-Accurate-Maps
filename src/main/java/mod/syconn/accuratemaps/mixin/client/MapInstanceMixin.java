@@ -31,11 +31,11 @@ public class MapInstanceMixin {
 
     @Inject(at = @At("HEAD"), method = "updateTexture", cancellable = true)
     public void updateAccurateTexture(CallbackInfo ci) {
-//        var additionalData = ClientAccurateMaps.getMapData(id);
-//        if(additionalData != null) {
-//            ClientAccurateMaps.updateTexture(texture, data, additionalData);
-//            ci.cancel();
-//        }
+        var additionalData = ClientAccurateMaps.getMapData(id);
+        if(additionalData != null) {
+            ClientAccurateMaps.updateTexture(texture, data, additionalData);
+            ci.cancel();
+        }
     }
 
 }

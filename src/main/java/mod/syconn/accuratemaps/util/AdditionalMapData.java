@@ -1,5 +1,6 @@
 package mod.syconn.accuratemaps.util;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -13,6 +14,11 @@ public class AdditionalMapData extends SavedData {
     public AdditionalMapData() {}
 
     public AdditionalMapData(CompoundTag tag) {
+        positions = tag.getLongArray("Pos");
+        states = tag.getIntArray("States");
+    }
+
+    public AdditionalMapData(CompoundTag tag, HolderLookup.Provider provider) {
         positions = tag.getLongArray("Pos");
         states = tag.getIntArray("States");
     }
@@ -32,10 +38,23 @@ public class AdditionalMapData extends SavedData {
         return positions;
     }
 
-    @Override
+    public CompoundTag clientSave(CompoundTag tag) {
+        tag.putIntArray("States", states);
+        tag.putLongArray("Pos", positions);
+        return tag;
+    }
+
+    //? if 1.20.1 {
+    /*@Override
     public @NotNull CompoundTag save(CompoundTag compoundTag) {
         compoundTag.putIntArray("States", states);
         compoundTag.putLongArray("Pos", positions);
         return compoundTag;
     }
+    *///? } else {
+    @Override
+    public @NotNull CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        return clientSave(compoundTag);
+    }
+    //? }
 }

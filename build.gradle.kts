@@ -28,15 +28,6 @@ modSettings {
     )
 }
 
-repositories {
-
-}
-
-val isDeobfuscated = stonecutter.current.parsed >= "26.1"
-dependencies {
-
-}
-
 loom {
     if (mod.isForge) {
         forge {

@@ -10,13 +10,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundMapItemDataPacket;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +26,6 @@ import org.lwjgl.opengl.GL11;
 import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ClientAccurateMaps implements ClientModInitializer {
 
@@ -116,11 +113,7 @@ public class ClientAccurateMaps implements ClientModInitializer {
     }
 
     public static void onMapUpdate(ClientboundMapItemDataPacket packet) {
-        if(ClientPlayNetworking.canSend(AccurateMaps.REQUEST_MAP)) {
-            var buf = PacketByteBufs.create();
-            buf.writeInt(packet.getMapId());
-            ClientPlayNetworking.send(AccurateMaps.REQUEST_MAP, buf);
-        }
+        if(ClientPlayNetworking.canSend(AccurateMaps.RequestMap.TYPE)) ClientPlayNetworking.send(new AccurateMaps.RequestMap(packet.mapId()));
     }
 
     public static AdditionalMapData getMapData(int id) {
@@ -134,10 +127,13 @@ public class ClientAccurateMaps implements ClientModInitializer {
             mapData.clear();
         }));
 
-        ClientPlayNetworking.registerGlobalReceiver(AccurateMaps.RECEIVE_MAP, ((client, handler, buf, responseSender) -> {
+        //? if 1.20.1 {
+        /*ClientPlayNetworking.registerGlobalReceiver(AccurateMaps.RECEIVE_MAP, ((client, handler, buf, responseSender) -> {
             var id = buf.readInt();
             var nbt = Objects.requireNonNullElseGet(buf.readNbt(), CompoundTag::new);
             client.execute(() -> mapData.put(id, new AdditionalMapData(nbt)));
         }));
+        *///? } else
+        ClientPlayNetworking.registerGlobalReceiver(AccurateMaps.ReceiveMap.TYPE, ((payload, context) -> context.client().execute(() -> mapData.put(payload.id().id(), new AdditionalMapData(payload.nbt())))));
     }
 }
