@@ -13,14 +13,14 @@ import java.util.concurrent.CompletableFuture;
 public class MinecraftMixin {
 
     //? if 1.20.1 {
-    /*@Inject(at = @At("RETURN"), method = "reloadResourcePacks(Z)Ljava/util/concurrent/CompletableFuture;", cancellable = true)
+    @Inject(at = @At("RETURN"), method = "reloadResourcePacks(Z)Ljava/util/concurrent/CompletableFuture;", cancellable = true)
     private void reloadBlockStateMap(boolean bl, CallbackInfoReturnable<CompletableFuture<Void>> cir) {
         cir.setReturnValue(cir.getReturnValue().thenRun(() -> ClientAccurateMaps.paintBlockColorMap((Minecraft) (Object) this)));
     }
-    *///? } else {
-    @Inject(at = @At("RETURN"), method = "reloadResourcePacks()Ljava/util/concurrent/CompletableFuture;", cancellable = true)
+    //? } else {
+    /*@Inject(at = @At("RETURN"), method = "reloadResourcePacks()Ljava/util/concurrent/CompletableFuture;", cancellable = true)
     private void reloadBlockStateMap(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
         cir.setReturnValue(cir.getReturnValue().thenRun(() -> ClientAccurateMaps.paintBlockColorMap((Minecraft) (Object) this)));
     }
-    //? }
+    *///? }
 }

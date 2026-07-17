@@ -45,16 +45,16 @@ public class AdditionalMapData extends SavedData {
     }
 
     //? if 1.20.1 {
-    /*@Override
+    @Override
     public @NotNull CompoundTag save(CompoundTag compoundTag) {
         compoundTag.putIntArray("States", states);
         compoundTag.putLongArray("Pos", positions);
         return compoundTag;
     }
-    *///? } else {
-    @Override
+    //? } else {
+    /*@Override
     public @NotNull CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
         return clientSave(compoundTag);
     }
-    //? }
+    *///? }
 }
