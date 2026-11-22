@@ -12,14 +12,14 @@
     "sources": "https://github.com/Syconn/Color-Accurate-Maps"
   },
   "license": "All-Rights-Reserved",
-  "icon": "assets/accuratemaps/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mod.syconn.accuratemaps.AccurateMaps"
+      "mod.syconn.accuratemaps.platform.fabric.AccurateMaps"
     ],
     "client": [
-      "mod.syconn.accuratemaps.client.ClientAccurateMaps"
+      "mod.syconn.accuratemaps.platform.fabric.FabricClientAccurateMaps"
     ]
   },
   "mixins": [

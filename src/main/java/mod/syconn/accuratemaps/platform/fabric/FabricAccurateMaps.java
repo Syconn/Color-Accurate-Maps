@@ -1,6 +1,7 @@
-package mod.syconn.accuratemaps;
+package mod.syconn.accuratemaps.platform.fabric;
 
-import mod.syconn.accuratemaps.util.AdditionalMapData;
+//? if fabric {
+/*import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -8,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
 //? if >1.20.1 {
-/*import net.minecraft.network.RegistryFriendlyByteBuf;
+/^import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -17,10 +18,8 @@ import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.maps.MapId;
 import org.jetbrains.annotations.NotNull;
-*/
-//? } else {
+^/
 //? }
-
 public class AccurateMaps implements ModInitializer {
 
     //? if 1.20.1 {
@@ -41,7 +40,7 @@ public class AccurateMaps implements ModInitializer {
             ServerPlayNetworking.send(player, RECEIVE_MAP, innerBuf);
         }));
         //? } else {
-        /*PayloadTypeRegistry.playC2S().register(RequestMap.TYPE, RequestMap.CODEC);
+        /^PayloadTypeRegistry.playC2S().register(RequestMap.TYPE, RequestMap.CODEC);
         PayloadTypeRegistry.playS2C().register(ReceiveMap.TYPE, ReceiveMap.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(RequestMap.TYPE, ((payload, context) -> {
@@ -50,11 +49,11 @@ public class AccurateMaps implements ModInitializer {
             var nbt = accurateMapState.clientSave(new CompoundTag());
             ServerPlayNetworking.send(context.player(), new ReceiveMap(id, nbt));
         }));
-        *///? }
+        ^///? }
     }
 
     //? if >1.20.1 {
-    /*public record ReceiveMap(MapId id, CompoundTag nbt) implements CustomPacketPayload {
+    /^public record ReceiveMap(MapId id, CompoundTag nbt) implements CustomPacketPayload {
         public static final CustomPacketPayload.Type<ReceiveMap> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("accuratemaps", "receive_color_accurate_map"));
         public static final StreamCodec<RegistryFriendlyByteBuf, ReceiveMap> CODEC = StreamCodec.composite(MapId.STREAM_CODEC, ReceiveMap::id, ByteBufCodecs.COMPOUND_TAG, ReceiveMap::nbt, ReceiveMap::new);
 
@@ -73,5 +72,6 @@ public class AccurateMaps implements ModInitializer {
             return TYPE;
         }
     }
-    *///? }
+    ^///? }
 }
+*///? }

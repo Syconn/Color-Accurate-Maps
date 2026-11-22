@@ -7,7 +7,7 @@ license = "GPL-3.0"
 modId = "${id}"
 version = "${version}"
 displayName = "${name}"
-authors = "Meza"
+authors = "Syconn"
 description = '''
 ${description}
 '''

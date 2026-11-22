@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "*"
-issueTrackerURL = "https://github.com/Syconn/HeroCore-v2/issues/new"
+issueTrackerURL = "https://github.com/Syconn/Color-Accurate-Maps/issues"
 license = "All Rights Reserved"
 
 [[mods]]
@@ -11,8 +11,7 @@ authors = "Syconn"
 description = '''
 ${description}
 '''
-logoFile = "../assets/hero/icon.png"
-#logoBlur = false
+logoFile = "icon.png"
 
 [[dependencies.${id}]]
 modId = "minecraft"
@@ -27,24 +26,3 @@ mandatory = true
 versionRange = "*"
 ordering = "NONE"
 side = "CLIENT"
-
-[[dependencies.hero]]
-modId = "architectury"
-mandatory = true
-versionRange = "[9.2.14,)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies.hero]]
-modId="playeranimator"
-mandatory=true
-versionRange="[1,)"
-ordering="AFTER"
-side="BOTH"
-
-[[dependencies.hero]]
-modId="midnightlib"
-mandatory=true
-versionRange="[1.9.2,)"
-ordering="AFTER"
-side="BOTH"

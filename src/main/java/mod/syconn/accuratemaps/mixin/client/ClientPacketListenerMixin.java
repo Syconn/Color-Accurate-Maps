@@ -1,6 +1,10 @@
 package mod.syconn.accuratemaps.mixin.client;
 
-import mod.syconn.accuratemaps.client.ClientAccurateMaps;
+//? if fabric
+//import mod.syconn.accuratemaps.platform.fabric.FabricClientAccurateMaps;
+//? if forge
+import mod.syconn.accuratemaps.platform.forge.ForgeClientAccurateMaps;
+
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundMapItemDataPacket;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +17,9 @@ public class ClientPacketListenerMixin {
 
     @Inject(at = @At("HEAD"), method = "handleMapItemData")
     private void updateMaps(ClientboundMapItemDataPacket clientboundMapItemDataPacket, CallbackInfo ci) {
-        ClientAccurateMaps.onMapUpdate(clientboundMapItemDataPacket);
+        //? if fabric
+        //FabricClientAccurateMaps.onMapUpdate(clientboundMapItemDataPacket);
+        //? if forge
+        ForgeClientAccurateMaps.onMapUpdate(clientboundMapItemDataPacket);
     }
 }
