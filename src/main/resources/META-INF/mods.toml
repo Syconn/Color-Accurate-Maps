@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "*"
 issueTrackerURL = "https://github.com/Syconn/Color-Accurate-Maps/issues"
-license = "All Rights Reserved"
+license = "MPL-2.0"
 
 [[mods]]
 modId = "${id}"

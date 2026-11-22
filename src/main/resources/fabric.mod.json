@@ -11,7 +11,7 @@
     "homepage": "https://github.com/Syconn/Color-Accurate-Maps/issues",
     "sources": "https://github.com/Syconn/Color-Accurate-Maps"
   },
-  "license": "All-Rights-Reserved",
+  "license": "MPL-2.0",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
