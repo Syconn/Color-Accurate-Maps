@@ -1,5 +1,16 @@
-package mod.syconn.accuratemaps;
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * Based on Accurate Maps by D4rkness_King / lucaargolo
+ * (https://github.com/lucaargolo/accurate-maps), MPL-2.0.
+ * Rewritten in Java for Minecraft 1.20+ using Stonecutter.
+ */
 
+package mod.syconn.accuratemaps.platform.fabric;
+
+//? if fabric {
 import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -17,11 +28,9 @@ import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.maps.MapId;
 import org.jetbrains.annotations.NotNull;
-*/
-//? } else {
-//? }
 
-public class AccurateMaps implements ModInitializer {
+*///? }
+public class FabricAccurateMaps implements ModInitializer {
 
     //? if 1.20.1 {
     public static ResourceLocation REQUEST_MAP = new ResourceLocation("accuratemaps", "request_color_accurate_map");
@@ -75,3 +84,4 @@ public class AccurateMaps implements ModInitializer {
     }
     *///? }
 }
+//? }

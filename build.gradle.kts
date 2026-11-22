@@ -1,4 +1,5 @@
 import gg.meza.stonecraft.mod
+import me.modmuss50.mpp.ReleaseType
 
 plugins {
     id("gg.meza.stonecraft")
@@ -20,12 +21,6 @@ modSettings {
         narrator = false
         musicVolume = 0.0
     }
-
-    variableReplacements = mapOf(
-        "arch" to mod.prop("arch", "*"),
-        "anim" to mod.prop("animation", "*"),
-        "midnight" to mod.prop("midnight", "*")
-    )
 }
 
 loom {
@@ -77,19 +72,15 @@ if (mod.isForge) { // FORGE FIX for Gradle
 }
 
 publishMods {
+    type= ReleaseType.STABLE
+
     modrinth {
-        // if (mod.isFabric) requires("fabric-api")
-        // if (stonecutter.eval(stonecutter.current.version, "<=1.20.4")) requires("playeranimator")
-        // requires("architectury-api")
-        // requires("midnightlib")
+         if (mod.isFabric) requires("fabric-api")
     }
 
     curseforge {
-        // client = true
-        // server = true
-        // if (mod.isFabric) requires("fabric-api")
-        // if (stonecutter.eval(stonecutter.current.version, "<=1.20.4")) requires("playeranimator")
-        // requires("architectury-api")
-        // requires("midnightlib")
+         client = true
+         server = true
+         if (mod.isFabric) requires("fabric-api")
     }
 }

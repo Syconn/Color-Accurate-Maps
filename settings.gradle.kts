@@ -10,6 +10,7 @@ pluginManagement {
         maven("https://maven.neoforged.net/releases/")
     }
 }
+
 plugins {
     id("gg.meza.stonecraft") version "1.12+"
     id("dev.kikugie.stonecutter") version "0.9+"
@@ -25,7 +26,7 @@ stonecutter {
 
 //        mc("26.1", "fabric", "neoforge")
         mc("1.21.1", "fabric") // "neoforge"
-        mc("1.20.1", "fabric") // "forge"
+        mc("1.20.1", "fabric", "forge")
 
         vcsVersion = "1.20.1-fabric"
     }

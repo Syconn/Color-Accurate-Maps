@@ -1,22 +1,27 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * Based on Accurate Maps by D4rkness_King / lucaargolo
+ * (https://github.com/lucaargolo/accurate-maps), MPL-2.0.
+ * Rewritten in Java for Minecraft 1.20+ using Stonecutter.
+ */
+
 package mod.syconn.accuratemaps.client;
 
+//? if fabric
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
-import mod.syconn.accuratemaps.AccurateMaps;
 import mod.syconn.accuratemaps.mixin.BrightnessInvoker;
 import mod.syconn.accuratemaps.mixin.MapColorInvoker;
 import mod.syconn.accuratemaps.util.AdditionalMapColor;
 import mod.syconn.accuratemaps.util.AdditionalMapData;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundMapItemDataPacket;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -27,12 +32,8 @@ import org.lwjgl.opengl.GL11;
 import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
-//? if 1.20.1
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-
-public class ClientAccurateMaps implements ClientModInitializer {
+public class ClientAccurateMaps {
 
     private static final Map<Integer, AdditionalMapData> mapData = new LinkedHashMap<>();
     private static final Map<BlockState, Integer> stateColorMap = new LinkedHashMap<>();
@@ -94,14 +95,17 @@ public class ClientAccurateMaps implements ClientModInitializer {
                     var blockState = Block.stateById(additionalData.getStates()[k]);
                     var blockPos = BlockPos.of(additionalData.getPositions()[k]);
                     if(!blockState.isAir()) {
+                        //? if fabric {
                         var provider = ColorProviderRegistry.BLOCK.get(blockState.getBlock());
                         int tintColor = provider != null ? provider.getColor(blockState, Minecraft.getInstance().level, blockPos, 0) : 0xFFFFFF;
+                        //? } else if forge {
+                        /*int raw = Minecraft.getInstance().getBlockColors().getColor(blockState, Minecraft.getInstance().level, blockPos, 0);
+                        int tintColor = raw != -1 ? raw : 0xFFFFFF;
+                        *///? }
                         var savedColor = stateColorMap.getOrDefault(blockState, 0);
                         var multipliedColor = getMultipliedColor(tintColor, savedColor);
                         texture.getPixels().setPixelRGBA(i, j, AdditionalMapColor.getRenderColor(multipliedColor, brightness));
-                    } else{
-                        texture.getPixels().setPixelRGBA(i, j, originalColor.calculateRGBColor(brightness));
-                    }
+                    } else texture.getPixels().setPixelRGBA(i, j, originalColor.calculateRGBColor(brightness));
                 }
             }
 
@@ -117,36 +121,19 @@ public class ClientAccurateMaps implements ClientModInitializer {
         return (red << 16) | (green << 8) | blue;
     }
 
-    public static void onMapUpdate(ClientboundMapItemDataPacket packet) {
-        //? if >1.20.1 {
-        /*if(ClientPlayNetworking.canSend(AccurateMaps.RequestMap.TYPE)) ClientPlayNetworking.send(new AccurateMaps.RequestMap(packet.mapId()));
-        *///? } else {
-        if(ClientPlayNetworking.canSend(AccurateMaps.REQUEST_MAP)) {
-            var buf = PacketByteBufs.create();
-            buf.writeInt(packet.getMapId());
-            ClientPlayNetworking.send(AccurateMaps.REQUEST_MAP, buf);
-        }
-        //? }
+    public static boolean isStateColorMapEmpty() {
+        return stateColorMap.isEmpty();
     }
 
     public static AdditionalMapData getMapData(int id) {
         return mapData.get(id);
     }
 
-    @Override
-    public void onInitializeClient() {
-        ClientPlayConnectionEvents.JOIN.register(((handler, sender, client) -> {
-            if(stateColorMap.isEmpty()) paintBlockColorMap(client);
-            mapData.clear();
-        }));
+    public static void putMapData(int id, AdditionalMapData data) {
+        mapData.put(id, data);
+    }
 
-        //? if 1.20.1 {
-        ClientPlayNetworking.registerGlobalReceiver(AccurateMaps.RECEIVE_MAP, ((client, handler, buf, responseSender) -> {
-            var id = buf.readInt();
-            var nbt = Objects.requireNonNullElseGet(buf.readNbt(), CompoundTag::new);
-            client.execute(() -> mapData.put(id, new AdditionalMapData(nbt)));
-        }));
-        //? } else
-        //ClientPlayNetworking.registerGlobalReceiver(AccurateMaps.ReceiveMap.TYPE, ((payload, context) -> context.client().execute(() -> mapData.put(payload.id().id(), new AdditionalMapData(payload.nbt())))));
+    public static void clearMapData() {
+        mapData.clear();
     }
 }

@@ -15,6 +15,6 @@
         "BlockStateMixin",
         "BrightnessInvoker",
         "MapColorInvoker",
-        "MapItemMixin",
+        "MapItemMixin"
     ]
 }

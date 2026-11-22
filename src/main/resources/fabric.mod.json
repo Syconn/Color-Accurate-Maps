@@ -11,15 +11,15 @@
     "homepage": "https://github.com/Syconn/Color-Accurate-Maps/issues",
     "sources": "https://github.com/Syconn/Color-Accurate-Maps"
   },
-  "license": "All-Rights-Reserved",
-  "icon": "assets/accuratemaps/icon.png",
+  "license": "MPL-2.0",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mod.syconn.accuratemaps.AccurateMaps"
+      "mod.syconn.accuratemaps.platform.fabric.FabricAccurateMaps"
     ],
     "client": [
-      "mod.syconn.accuratemaps.client.ClientAccurateMaps"
+      "mod.syconn.accuratemaps.platform.fabric.FabricClientAccurateMaps"
     ]
   },
   "mixins": [
