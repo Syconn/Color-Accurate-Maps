@@ -1,3 +1,13 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * Based on Accurate Maps by D4rkness_King / lucaargolo
+ * (https://github.com/lucaargolo/accurate-maps), MPL-2.0.
+ * Rewritten in Java for Minecraft 1.20+ using Stonecutter.
+ */
+
 package mod.syconn.accuratemaps.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;

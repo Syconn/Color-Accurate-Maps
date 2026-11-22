@@ -9,14 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ReceiveMapPacket {
-    private final int id;
-    private final CompoundTag nbt;
-
-    public ReceiveMapPacket(int id, CompoundTag nbt) {
-        this.id = id;
-        this.nbt = nbt;
-    }
+public record ReceiveMapPacket(int id, CompoundTag nbt) {
 
     public static void encode(ReceiveMapPacket pkt, FriendlyByteBuf buf) {
         buf.writeInt(pkt.id);

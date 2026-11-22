@@ -10,7 +10,6 @@ import static mod.syconn.accuratemaps.platform.forge.ForgeAccurateMaps.MOD;
 
 @Mod(MOD)
 public class ForgeAccurateMaps {
-
     public static final String MOD = "accuratemaps";
 
     public ForgeAccurateMaps(FMLJavaModLoadingContext context) {
