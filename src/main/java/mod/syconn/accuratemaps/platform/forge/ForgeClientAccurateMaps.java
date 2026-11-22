@@ -1,6 +1,7 @@
 package mod.syconn.accuratemaps.platform.forge;
 
-import mod.syconn.accuratemaps.client.ClientAccurateMaps;
+//? if forge {
+/*import mod.syconn.accuratemaps.client.ClientAccurateMaps;
 import mod.syconn.accuratemaps.platform.forge.networking.ForgeNetwork;
 import mod.syconn.accuratemaps.platform.forge.networking.RequestMapPacket;
 import mod.syconn.accuratemaps.util.AdditionalMapData;
@@ -33,3 +34,4 @@ public class ForgeClientAccurateMaps {
         ClientAccurateMaps.putMapData(id, new AdditionalMapData(tag));
     }
 }
+*///? }

@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mod.syconn.accuratemaps.platform.fabric.AccurateMaps"
+      "mod.syconn.accuratemaps.platform.fabric.FabricAccurateMaps"
     ],
     "client": [
       "mod.syconn.accuratemaps.platform.fabric.FabricClientAccurateMaps"

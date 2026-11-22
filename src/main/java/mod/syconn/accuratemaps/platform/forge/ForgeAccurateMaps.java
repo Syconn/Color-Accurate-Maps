@@ -2,7 +2,7 @@ package mod.syconn.accuratemaps.platform.forge;
 
 //? if forge {
 
-import mod.syconn.accuratemaps.platform.forge.networking.ForgeNetwork;
+/*import mod.syconn.accuratemaps.platform.forge.networking.ForgeNetwork;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -16,4 +16,4 @@ public class ForgeAccurateMaps {
         ForgeNetwork.register();
     }
 }
-//? }
+*///? }

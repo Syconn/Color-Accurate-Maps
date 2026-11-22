@@ -1,6 +1,7 @@
 package mod.syconn.accuratemaps.platform.forge.networking;
 
-import mod.syconn.accuratemaps.util.AdditionalMapData;
+//? if forge {
+/*import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
@@ -27,3 +28,4 @@ public record RequestMapPacket(int id) {
         ctx.get().setPacketHandled(true);
     }
 }
+*///? }

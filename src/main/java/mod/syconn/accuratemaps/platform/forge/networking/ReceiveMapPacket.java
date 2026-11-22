@@ -1,6 +1,7 @@
 package mod.syconn.accuratemaps.platform.forge.networking;
 
-import mod.syconn.accuratemaps.platform.forge.ForgeClientAccurateMaps;
+//? if forge {
+/*import mod.syconn.accuratemaps.platform.forge.ForgeClientAccurateMaps;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,3 +27,4 @@ public record ReceiveMapPacket(int id, CompoundTag nbt) {
         context.setPacketHandled(true);
     }
 }
+*///? }

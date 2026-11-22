@@ -1,6 +1,7 @@
 package mod.syconn.accuratemaps.platform.forge.networking;
 
-import mod.syconn.accuratemaps.platform.forge.ForgeAccurateMaps;
+//? if forge {
+/*import mod.syconn.accuratemaps.platform.forge.ForgeAccurateMaps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -8,7 +9,6 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
-//? if forge {
 public class ForgeNetwork {
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(ForgeAccurateMaps.MOD),
@@ -38,4 +38,4 @@ public class ForgeNetwork {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), msg);
     }
 }
-//? }
+*///? }
