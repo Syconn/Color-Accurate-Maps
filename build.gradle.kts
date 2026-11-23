@@ -72,7 +72,7 @@ if (mod.isForge) { // FORGE FIX for Gradle
 }
 
 publishMods {
-    type= ReleaseType.STABLE
+    type=ReleaseType.STABLE
 
     modrinth {
          if (mod.isFabric) requires("fabric-api")

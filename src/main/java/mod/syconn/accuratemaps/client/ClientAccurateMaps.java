@@ -11,7 +11,7 @@
 package mod.syconn.accuratemaps.client;
 
 //? if fabric
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+//import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mod.syconn.accuratemaps.mixin.BrightnessInvoker;
 import mod.syconn.accuratemaps.mixin.MapColorInvoker;
@@ -96,12 +96,12 @@ public class ClientAccurateMaps {
                     var blockPos = BlockPos.of(additionalData.getPositions()[k]);
                     if(!blockState.isAir()) {
                         //? if fabric {
-                        var provider = ColorProviderRegistry.BLOCK.get(blockState.getBlock());
+                        /*var provider = ColorProviderRegistry.BLOCK.get(blockState.getBlock());
                         int tintColor = provider != null ? provider.getColor(blockState, Minecraft.getInstance().level, blockPos, 0) : 0xFFFFFF;
-                        //? } else if forge {
-                        /*int raw = Minecraft.getInstance().getBlockColors().getColor(blockState, Minecraft.getInstance().level, blockPos, 0);
+                        *///? } else if forge || neoforge {
+                        int raw = Minecraft.getInstance().getBlockColors().getColor(blockState, Minecraft.getInstance().level, blockPos, 0);
                         int tintColor = raw != -1 ? raw : 0xFFFFFF;
-                        *///? }
+                        //? }
                         var savedColor = stateColorMap.getOrDefault(blockState, 0);
                         var multipliedColor = getMultipliedColor(tintColor, savedColor);
                         texture.getPixels().setPixelRGBA(i, j, AdditionalMapColor.getRenderColor(multipliedColor, brightness));

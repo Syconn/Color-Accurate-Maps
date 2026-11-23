@@ -30,10 +30,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 //? if >1.20.1 {
-/*import net.minecraft.util.datafix.DataFixTypes;
+import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.core.component.DataComponents;
-*///? }
+//? }
 
 @Mixin(MapItem.class)
 public class MapItemMixin {
@@ -45,12 +45,12 @@ public class MapItemMixin {
     private void loadAdditionalMapData(ItemStack itemStack, Level level, Entity entity, int i, boolean bl, CallbackInfo ci) {
         if (level instanceof ServerLevel serverLevel) {
             //? if 1.20.1 {
-            var id = MapItem.getMapId(itemStack);
+            /*var id = MapItem.getMapId(itemStack);
             if(id != null) additionalMapData = serverLevel.getServer().overworld().getDataStorage().computeIfAbsent(AdditionalMapData::new, AdditionalMapData::new, "accurate_map_"+id);
-            //? } else {
-            /*var id = itemStack.get(DataComponents.MAP_ID);
+            *///? } else {
+            var id = itemStack.get(DataComponents.MAP_ID);
             if (id != null) additionalMapData = serverLevel.getServer().overworld().getDataStorage().computeIfAbsent(new SavedData.Factory<>(AdditionalMapData::new, AdditionalMapData::new, DataFixTypes.SAVED_DATA_FORCED_CHUNKS), "accurate_map_"+id.key());
-            *///? }
+            //? }
         }
     }
 
