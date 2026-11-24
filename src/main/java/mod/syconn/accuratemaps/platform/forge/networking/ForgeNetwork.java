@@ -30,8 +30,8 @@ public class ForgeNetwork {
                 .add();
     }
 
-    public static void sendToServer(Object msg) {
-        CHANNEL.sendToServer(msg);
+    public static void sendToAllPlayers(Object msg) {
+        CHANNEL.sendToAllPlayers(msg);
     }
 
     public static void sendToPlayer(Object msg, ServerPlayer player) {

@@ -13,15 +13,14 @@ package mod.syconn.accuratemaps.client;
 //? if fabric && <26.1
 //import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 
-import com.mojang.blaze3d.platform.NativeImage;
 import mod.syconn.accuratemaps.mixin.BrightnessInvoker;
 import mod.syconn.accuratemaps.mixin.MapColorInvoker;
 import mod.syconn.accuratemaps.util.AdditionalMapColor;
 import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,21 +29,24 @@ import net.minecraft.world.level.block.Block;
 
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
 //? <26.1 {
 /*import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.renderer.block.BlockStateModelSet;
-import net.minecraft.world.level.block.Blocks;
 import org.lwjgl.opengl.GL11;
 import java.nio.ByteBuffer;
 *///? } else {
+import com.mojang.blaze3d.platform.NativeImage;
+import java.util.ArrayList;
+import java.util.HashMap;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.block.BlockStateModelSet;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.resources.Identifier;
 //? }
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -225,21 +227,11 @@ public class ClientAccurateMaps {
                         var savedColor = stateColorMap.getOrDefault(blockState, 0);
                         var multipliedColor = getMultipliedColor(tintColor, savedColor);
                         pixel = AdditionalMapColor.getRenderColor(multipliedColor, brightness);
-
-                        if (blockState.is(Blocks.NETHERRACK) || blockState.is(Blocks.SAND)) {
-                            System.out.println("[AM] " + blockState.getBlock()
-                                            + " air=" + blockState.isAir()
-                                            + " saved=" + Integer.toHexString(stateColorMap.getOrDefault(blockState, 0))
-                                            + " pixel=" + Integer.toHexString(pixel));
-                        }
                     }
                     else pixel = originalColor.calculateARGBColor(brightness);
-
-//                    else pixel = MapColor.getColorFromPackedId(data.colors[k]);
                     texture.getPixels().setPixel(i, j, pixel);
                 }
             }
-
             texture.upload();
         }
         //? }

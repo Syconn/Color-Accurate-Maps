@@ -20,7 +20,7 @@ public class ForgeClientAccurateMaps {
 
     public static void onMapUpdate(ClientboundMapItemDataPacket packet) {
         var listener = Minecraft.getInstance().getConnection();
-        if (listener != null && ForgeNetwork.CHANNEL.isRemotePresent(listener.getConnection())) ForgeNetwork.sendToServer(new RequestMapPacket(packet.getMapId()));
+        if (listener != null && ForgeNetwork.CHANNEL.isRemotePresent(listener.getConnection())) ForgeNetwork.sendToAllPlayers(new RequestMapPacket(packet.getMapId()));
     }
 
     @SubscribeEvent

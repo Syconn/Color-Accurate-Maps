@@ -40,6 +40,7 @@ stonecutter {
             replace("ResourceLocation", "Identifier")
             replace("playC2S", "serverboundPlay")
             replace("playS2C", "clientboundPlay")
+            replace("sendToServer", "sendToAllPlayers")
         }
     }
 }

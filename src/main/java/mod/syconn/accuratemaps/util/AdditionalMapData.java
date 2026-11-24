@@ -23,9 +23,14 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 //? }
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.saveddata.SavedData;
+//? if 1.21.1
+//import net.minecraft.core.HolderLookup;
+//? if 1.20.1
+//import org.jetbrains.annotations.NotNull;
 
 public class AdditionalMapData extends SavedData {
 
@@ -56,9 +61,8 @@ public class AdditionalMapData extends SavedData {
         states = tag.getIntArray("States");
     }
 
-    public AdditionalMapData(CompoundTag tag, HolderLookup.Provider provider) {
-        positions = tag.getLongArray("Pos");
-        states = tag.getIntArray("States");
+    public static AdditionalMapData clientRead(CompoundTag tag) {
+        return new AdditionalMapData(tag);
     }
     *///? } else {
     public AdditionalMapData(long[] positions, int[] states) {

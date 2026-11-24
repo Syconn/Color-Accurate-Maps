@@ -11,8 +11,7 @@
 package mod.syconn.accuratemaps.platform.neo;
 
 //? if neoforge {
-
-/*import mod.syconn.accuratemaps.util.AdditionalMapData;
+import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -20,14 +19,17 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.datafix.DataFixTypes;
-import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.maps.MapId;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.jetbrains.annotations.NotNull;
+
+//? if <26.1 {
+/*import net.minecraft.util.datafix.DataFixTypes;
+import net.minecraft.world.level.saveddata.SavedData;
+*///? }
 
 @Mod(NeoAccurateMaps.MOD)
 public class NeoAccurateMaps {
@@ -43,14 +45,24 @@ public class NeoAccurateMaps {
         registrar.playToServer(RequestMap.TYPE, RequestMap.CODEC, (payload, context) -> {
             if (!(context.player() instanceof ServerPlayer player)) return;
             var id = payload.id();
-            var accurateMapState = player.server.overworld().getDataStorage().computeIfAbsent(
+            //? if <26.1 {
+            /*var accurateMapState = player.server.overworld().getDataStorage().computeIfAbsent(
                     new SavedData.Factory<>(AdditionalMapData::new, AdditionalMapData::new, DataFixTypes.SAVED_DATA_FORCED_CHUNKS),
                     "accurate_map_" + id.key());
             var nbt = accurateMapState.clientSave(new CompoundTag());
             PacketDistributor.sendToPlayer(player, new ReceiveMap(id, nbt));
+            *///? } else {
+            var accurateMapState = player.server.overworld().getDataStorage().computeIfAbsent(AdditionalMapData.type(id));
+            var nbt = accurateMapState.clientSave(new CompoundTag());
+            PacketDistributor.sendToPlayer(player, new ReceiveMap(id, nbt));
+            //? }
         });
 
-        registrar.playToClient(ReceiveMap.TYPE, ReceiveMap.CODEC, NeoClientAccurateMaps::handleReceiveMap);
+        //? if <26.1 {
+        /*registrar.playToClient(ReceiveMap.TYPE, ReceiveMap.CODEC, NeoClientAccurateMaps::handleReceiveMap);
+        *///? } else {
+        registrar.playToClient(ReceiveMap.TYPE, ReceiveMap.CODEC);
+        //? }
     }
 
     public record ReceiveMap(MapId id, CompoundTag nbt) implements CustomPacketPayload {
@@ -73,4 +85,4 @@ public class NeoAccurateMaps {
         }
     }
 }
-*///? }
+//? }

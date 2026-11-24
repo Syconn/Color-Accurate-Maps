@@ -14,6 +14,7 @@ import com.google.common.collect.Multiset;
 import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.minecraft.core.BlockPos;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -30,11 +31,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-//? if >1.20.1 {
+//? if >=1.21.1  {
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.core.component.DataComponents;
 //? }
+//? if >=26.1
+import net.minecraft.core.component.DataComponents;
 
 @Mixin(MapItem.class)
 public class MapItemMixin {
@@ -51,7 +53,7 @@ public class MapItemMixin {
             if(id != null) additionalMapData = serverLevel.getServer().overworld().getDataStorage().computeIfAbsent(AdditionalMapData::new, AdditionalMapData::new, "accurate_map_"+id);
             ^///? } else {
             var id = itemStack.get(DataComponents.MAP_ID);
-            if (id != null) additionalMapData = serverLevel.getServer().overworld().getDataStorage().computeIfAbsent(new SavedData.Factory<>(AdditionalMapData::new, AdditionalMapData::new, DataFixTypes.SAVED_DATA_FORCED_CHUNKS), "accurate_map_"+id.key());
+            if (id != null) additionalMapData = serverLevel.getServer().overworld().getDataStorage().computeIfAbsent(new SavedData.Factory<>(AdditionalMapData::new, (tag, prov) -> new AdditionalMapData(tag), DataFixTypes.SAVED_DATA_FORCED_CHUNKS), "accurate_map_"+id.key());
             //? }
         }
     }

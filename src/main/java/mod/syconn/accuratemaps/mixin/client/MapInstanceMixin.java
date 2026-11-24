@@ -2,13 +2,10 @@ package mod.syconn.accuratemaps.mixin.client;
 
 //? if <26.1
 //import net.minecraft.client.gui.MapRenderer;
-//? if >=26.1
-
-
 import mod.syconn.accuratemaps.client.ClientAccurateMaps;
-import net.minecraft.client.renderer.MapRenderer;
-import net.minecraft.client.renderer.texture.DynamicTexture;
+//? if >=26.1
 import net.minecraft.client.resources.MapTextureManager;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

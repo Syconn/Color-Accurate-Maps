@@ -11,7 +11,7 @@
 package mod.syconn.accuratemaps.platform.neo;
 
 //? if neoforge {
-/*import mod.syconn.accuratemaps.client.ClientAccurateMaps;
+import mod.syconn.accuratemaps.client.ClientAccurateMaps;
 import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -21,30 +21,47 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+//? if >=26.1 {
+import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+//? } else {
+/*import net.neoforged.neoforge.network.PacketDistributor;
+*///? }
 
 @Mod(value = NeoAccurateMaps.MOD, dist = Dist.CLIENT)
 public class NeoClientAccurateMaps {
 
     public NeoClientAccurateMaps(IEventBus modBus) {
+        modBus.addListener(NeoClientAccurateMaps::registerClientPayloads);
         NeoForge.EVENT_BUS.addListener(NeoClientAccurateMaps::onJoin);
     }
+
+    //? if >=26.1 {
+    public static void registerClientPayloads(RegisterClientPayloadHandlersEvent event) {
+        event.register(NeoAccurateMaps.ReceiveMap.TYPE, NeoClientAccurateMaps::handleReceiveMap);
+    }
+    //? }
 
     public static void onMapUpdate(ClientboundMapItemDataPacket packet) {
         ClientPacketListener connection = Minecraft.getInstance().getConnection();
         if (connection != null && connection.hasChannel(NeoAccurateMaps.RequestMap.TYPE))
-            PacketDistributor.sendToServer(new NeoAccurateMaps.RequestMap(packet.mapId()));
+            //? if >=26.1 {
+            ClientPacketDistributor.sendToServer(new NeoAccurateMaps.RequestMap(packet.mapId()));
+            //? } else {
+            /*PacketDistributor.sendToAllPlayers(new NeoAccurateMaps.RequestMap(packet.mapId()));
+            *///? }
     }
 
     private static void onJoin(ClientPlayerNetworkEvent.LoggingIn event) {
-        Minecraft client = Minecraft.getInstance();
+        var client = Minecraft.getInstance();
         if (ClientAccurateMaps.isStateColorMapEmpty()) ClientAccurateMaps.paintBlockColorMap(client);
         ClientAccurateMaps.clearMapData();
     }
 
     public static void handleReceiveMap(NeoAccurateMaps.ReceiveMap payload, IPayloadContext context) {
-        ClientAccurateMaps.putMapData(payload.id().id(), new AdditionalMapData(payload.nbt()));
+        ClientAccurateMaps.putMapData(payload.id().id(), AdditionalMapData.clientRead(payload.nbt()));
     }
 }
-*///? }
+//? }
