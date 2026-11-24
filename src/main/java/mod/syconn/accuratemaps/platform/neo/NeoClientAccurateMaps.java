@@ -11,7 +11,7 @@
 package mod.syconn.accuratemaps.platform.neo;
 
 //? if neoforge {
-import mod.syconn.accuratemaps.client.ClientAccurateMaps;
+/*import mod.syconn.accuratemaps.client.ClientAccurateMaps;
 import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -47,4 +47,4 @@ public class NeoClientAccurateMaps {
         ClientAccurateMaps.putMapData(payload.id().id(), new AdditionalMapData(payload.nbt()));
     }
 }
-//? }
+*///? }

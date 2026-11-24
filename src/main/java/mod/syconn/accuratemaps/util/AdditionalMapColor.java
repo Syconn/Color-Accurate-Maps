@@ -36,9 +36,13 @@ public class AdditionalMapColor extends MapColor {
 
     public static int getRenderColor(int color, Brightness brightness) {
         int i = brightness.modifier;
-        int j = (color >> 16 & 255) * i / 255;
-        int k = (color >> 8 & 255) * i / 255;
-        int l = (color & 255) * i / 255;
-        return -16777216 | l << 16 | k << 8 | j;
+        int r = (color >> 16 & 255) * i / 255;
+        int g = (color >> 8 & 255) * i / 255;
+        int b = (color & 255) * i / 255;
+        //? if >=26.1 {
+        return 0xFF000000 | r << 16 | g << 8 | b;
+        //? } else {
+        /*return 0xFF000000 | b << 16 | g << 8 | r;
+         *///? }
     }
 }

@@ -12,13 +12,13 @@ package mod.syconn.accuratemaps.platform.neo;
 
 //? if neoforge {
 
-import mod.syconn.accuratemaps.util.AdditionalMapData;
+/*import mod.syconn.accuratemaps.util.AdditionalMapData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -54,7 +54,7 @@ public class NeoAccurateMaps {
     }
 
     public record ReceiveMap(MapId id, CompoundTag nbt) implements CustomPacketPayload {
-        public static final CustomPacketPayload.Type<ReceiveMap> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("accuratemaps", "receive_color_accurate_map"));
+        public static final CustomPacketPayload.Type<ReceiveMap> TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("accuratemaps", "receive_color_accurate_map"));
         public static final StreamCodec<RegistryFriendlyByteBuf, ReceiveMap> CODEC = StreamCodec.composite(MapId.STREAM_CODEC, ReceiveMap::id, ByteBufCodecs.COMPOUND_TAG, ReceiveMap::nbt, ReceiveMap::new);
 
         @Override
@@ -64,7 +64,7 @@ public class NeoAccurateMaps {
     }
 
     public record RequestMap(MapId id) implements CustomPacketPayload {
-        public static final CustomPacketPayload.Type<RequestMap> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("accuratemaps", "request_color_accurate_map"));
+        public static final CustomPacketPayload.Type<RequestMap> TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("accuratemaps", "request_color_accurate_map"));
         public static final StreamCodec<RegistryFriendlyByteBuf, RequestMap> CODEC = StreamCodec.composite(MapId.STREAM_CODEC, RequestMap::id, RequestMap::new);
 
         @Override
@@ -73,4 +73,4 @@ public class NeoAccurateMaps {
         }
     }
 }
-//? }
+*///? }

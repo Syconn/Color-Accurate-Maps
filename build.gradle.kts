@@ -35,15 +35,11 @@ stonecutter {
     replacements {
         string {
             direction = eval(current.version, ">=1.21.11")
-            replace("ResourceLocation", "Identifier")
-        }
-        string {
-            direction = eval(current.version, ">=1.21.11")
-            replace("import net.minecraft.Util;", "import net.minecraft.util.Util;")
-        }
-        string {
-            direction = eval(current.version, ">=1.21.11")
             replace("location", "identifier")
+            replace("import net.minecraft.Util;", "import net.minecraft.util.Util;")
+            replace("ResourceLocation", "Identifier")
+            replace("playC2S", "serverboundPlay")
+            replace("playS2C", "clientboundPlay")
         }
     }
 }
