@@ -12,6 +12,7 @@ pluginManagement {
 }
 
 plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0" // Checks for Up to Data Gradle
     id("gg.meza.stonecraft") version "1.12+"
     id("dev.kikugie.stonecutter") version "0.9+"
 }
@@ -24,8 +25,10 @@ stonecutter {
             for (it in loaders) version("$version-$it", version)
         }
 
-//        mc("26.1", "fabric", "neoforge")
-        mc("1.21.1", "fabric") // "neoforge"
+        mc("26.3", "fabric", "neoforge")
+        mc("26.2", "fabric", "neoforge")
+        mc("26.1", "fabric", "neoforge")
+        mc("1.21.1", "fabric", "neoforge")
         mc("1.20.1", "fabric", "forge")
 
         vcsVersion = "1.20.1-fabric"

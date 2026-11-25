@@ -1,7 +1,10 @@
 package mod.syconn.accuratemaps.mixin.client;
 
+//? if <26.1
+//import net.minecraft.client.gui.MapRenderer;
 import mod.syconn.accuratemaps.client.ClientAccurateMaps;
-import net.minecraft.client.gui.MapRenderer;
+//? if >=26.1
+import net.minecraft.client.resources.MapTextureManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import org.spongepowered.asm.mixin.Final;
@@ -12,8 +15,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MapRenderer.MapInstance.class)
+//? if <26.1
+//@Mixin(MapRenderer.MapInstance.class)
+//? if >=26.1
+@Mixin(targets = "net.minecraft.client.resources.MapTextureManager$MapInstance")
 public class MapInstanceMixin {
+
+    //? if >=26.1 {
+    @Shadow
+    private boolean requiresUpload;
+    //? }
 
     @Shadow
     private MapItemSavedData data;
@@ -24,7 +35,8 @@ public class MapInstanceMixin {
     @Unique
     private int id;
 
-    @Inject(at = @At("TAIL"), method = "<init>")
+    //? <26.1 {
+    /*@Inject(at = @At("TAIL"), method = "<init>")
     public void afterInit(MapRenderer mapRenderer, int i, MapItemSavedData mapItemSavedData, CallbackInfo ci) {
         this.id = i;
     }
@@ -37,5 +49,22 @@ public class MapInstanceMixin {
             ci.cancel();
         }
     }
+    *///? } else {
+    @Inject(at = @At("TAIL"), method = "<init>")
+    private void accuratemaps$afterInit(MapTextureManager manager, int id, MapItemSavedData data, CallbackInfo ci) {
+        this.id = id;
+    }
 
+    @Inject(at = @At("HEAD"), method = "updateTextureIfNeeded", cancellable = true)
+    private void accuratemaps$updateAccurateTexture(CallbackInfo ci) {
+        if (!this.requiresUpload) return;
+
+        var additionalData = ClientAccurateMaps.getMapData(this.id);
+        if (additionalData != null) {
+            ClientAccurateMaps.updateTexture(this.texture, this.data, additionalData);
+            this.requiresUpload = false;
+            ci.cancel();
+        }
+    }
+    //? }
 }
