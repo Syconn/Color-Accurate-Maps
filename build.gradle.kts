@@ -11,6 +11,7 @@ val awFile =
         stonecutter.current.parsed <= "1.21.4" -> project.rootProject.layout.projectDirectory.file("src/main/resources/accesswideners/1.21.accesswidener")
         else -> project.rootProject.layout.projectDirectory.file("src/main/resources/accesswideners/26.1.accesswidener")
     }
+val logoKey = if (stonecutter.eval(stonecutter.current.version, ">=26.2")) "bannerFile" else "logoFile"
 
 modSettings {
     accessWidenerLocation = awFile
@@ -21,6 +22,8 @@ modSettings {
         narrator = false
         musicVolume = 0.0
     }
+
+    variableReplacements.put("logo_key", logoKey)
 }
 
 loom {
@@ -40,6 +43,9 @@ stonecutter {
             replace("ResourceLocation", "Identifier")
             replace("playC2S", "serverboundPlay")
             replace("playS2C", "clientboundPlay")
+        }
+        string {
+            direction = eval(current.version, ">=1.21.11 <26.2")
             replace("sendToServer", "sendToAllPlayers")
         }
     }

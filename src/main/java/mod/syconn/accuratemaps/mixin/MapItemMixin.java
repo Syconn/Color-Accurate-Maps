@@ -31,12 +31,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-//? if >=1.21.1  {
-import net.minecraft.util.datafix.DataFixTypes;
+//? if =1.21.1  {
+/*import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
+*///? }
+//? if =26.1
+//import net.minecraft.core.component.DataComponents;
+//? if >=26.2 {
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 //? }
-//? if >=26.1
-import net.minecraft.core.component.DataComponents;
 
 @Mixin(MapItem.class)
 public class MapItemMixin {
@@ -67,8 +71,16 @@ public class MapItemMixin {
     }
     //? }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/saveddata/maps/MapItemSavedData;updateColor(IIB)Z"), method = "update", locals = LocalCapture.CAPTURE_FAILHARD)
+    //? if <=26.1 {
+    /*@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/saveddata/maps/MapItemSavedData;updateColor(IIB)Z"), method = "update", locals = LocalCapture.CAPTURE_FAILHARD)
     public void updateAccurateMapState(Level level, Entity entity, MapItemSavedData mapItemSavedData, CallbackInfo ci, int i, int j, int k, int l, int m, int n, MapItemSavedData.HoldingPlayer holdingPlayer, BlockPos.MutableBlockPos mutableBlockPos, BlockPos.MutableBlockPos mutableBlockPos2, boolean bl, int o, double d, int p, int q, boolean bl2, int r, int s, Multiset multiset, LevelChunk levelChunk, int t, double e, MapColor mapColor, MapColor.Brightness brightness) {
         additionalMapData.setBlock(o, p, mapColor);
     }
+    *///? } else {
+    @WrapOperation(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/saveddata/maps/MapItemSavedData;updateColor(IIB)Z"))
+    private boolean accuratemaps$recordBlock(MapItemSavedData instance, int i, int j, byte b, Operation<Boolean> original) {
+        additionalMapData.setBlock(i, j, MapColor.byId((b & 0xFF) >> 2));
+        return original.call(instance, i, j, b);
+    }
+    //? }
 }

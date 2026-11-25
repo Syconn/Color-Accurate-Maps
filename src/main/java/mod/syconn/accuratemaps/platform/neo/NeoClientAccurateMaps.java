@@ -50,7 +50,7 @@ public class NeoClientAccurateMaps {
             //? if >=26.1 {
             ClientPacketDistributor.sendToServer(new NeoAccurateMaps.RequestMap(packet.mapId()));
             //? } else {
-            /*PacketDistributor.sendToAllPlayers(new NeoAccurateMaps.RequestMap(packet.mapId()));
+            /*PacketDistributor.sendToServer(new NeoAccurateMaps.RequestMap(packet.mapId()));
             *///? }
     }
 
